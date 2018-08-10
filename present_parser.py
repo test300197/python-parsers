@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from pprint import pprint
 from re import compile
 from datetime import datetime
+from db import get_month, get_BC, get_BT, get_TC
 
 
 def get_html(url):
@@ -67,7 +68,6 @@ def get_info():
 def get_date():
     tag_date = soup.find('div', class_='items-bar__group items-bar__group--double-indent')
     info_date = tag_date.get_text().lower().replace('\n', '').replace('размещено:', '').replace(' ', '')
-    # pprint(info_date)
 
     return info_date  # ДОДЕЛАТЬ !!!
 

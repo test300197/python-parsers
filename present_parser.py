@@ -33,7 +33,7 @@ def main(url):
 
     tag_breadcrumbs = soup.find('div', class_='breadcrumbs')
     breadcrumbs = tag_breadcrumbs.get_text().lower().replace(' ', '').replace('\n', '').split("»")
-    pprint(breadcrumbs)
+    # pprint(breadcrumbs)
 
     get_info()
     data['sourceMedia'] = 'present'  # ДОДЕЛАТЬ

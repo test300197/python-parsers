@@ -116,6 +116,7 @@ def get_date():
 def get_address():
     if 'улица/переулок' in info:
         return info['улица/переулок']
+
     elif 'местоположение' in info:
         return info['местоположение']
 

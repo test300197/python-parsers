@@ -1,15 +1,17 @@
 import requests
+import special_function as sf
+
 from bs4 import BeautifulSoup
 from pprint import pprint
 from re import compile, findall
 from datetime import datetime
-import special_function as sf
+
 
 
 def get_html(url):
     req = requests.get(url)
 
-    if req.status_code != 200:  # Грамотно доделать
+    if req.status_code != 200:
         print("Error")
         exit()
     else:
@@ -42,14 +44,14 @@ def main(url):
     # pprint(breadcrumbs)
 
     get_info()
-    data['sourceMedia'] = 'present'  # ДОДЕЛАТЬ
+    data['sourceMedia'] = 'present'
     data['sourceUrl'] = url
     data['addDate'] = get_date()
     data['address'] = get_address()
     data['offerTypeCode'] = get_offer_type_code()
     data['categoryCode'] = get_category_code()
+    # data['buildingClass'] = get_building_class()
     # data['buildingType'] = get_building_type()
-    # data['buildingClass'] = get_building_class(data['categoryCode'])
     # data['typeCode'] = get_type_code()
     data['phones_import'] = get_phones()
     pprint(data)
@@ -72,17 +74,15 @@ def get_info():
 
 def get_date():
     tag_date = soup.find('div', class_='items-bar__group items-bar__group--double-indent')
-
     info_date = tag_date.get_text().lower().replace('\n', '').replace('размещено:', '')
     dmy = findall(r'\w+', info_date)
-
     date_time = {
         'day': None,
         'month': None,
         'year': None,
         'hour': None,
         'minute': None,
-        'second': None
+        'second': '00'
     }
 
     if dmy[0] == 'вчера':
@@ -106,19 +106,20 @@ def get_date():
         date_time['hour'] = '12'
         date_time['minute'] = '00'
 
-    date_time['second'] = '00'
-
     date = "{day}-{month}-{year} {hour}:{minute}:{second}".format(**date_time)
 
     return date
 
 
 def get_address():
+    type_address = ''
     if 'улица/переулок' in info:
-        return info['улица/переулок']
+        type_address = 'улица/переулок'
 
     elif 'местоположение' in info:
-        return info['местоположение']
+        type_address = 'местоположение'
+
+    return info[type_address]
 
 
 def get_offer_type_code():
@@ -133,18 +134,12 @@ def get_category_code():
     return sf.get_CC(category)
 
 
-def get_building_type():
+def get_building_class():
     return None
 
 
-def get_building_class(category):
-    building_class = {
-        'REZIDENTIAL': None,
-        'COMMERSIAL': 'A+',
-        'LAND': None,
-    }
-
-    return None  # ДОДЕЛАТЬ !!!
+def get_building_type():
+    return None
 
 
 def get_type_code():
@@ -163,8 +158,9 @@ def get_phones():
 
 if __name__ == '__main__':
     # present_url = "https://present-dv.ru/present/notice/view/4119440"  # вчера
-    present_url = "https://present-dv.ru/present/notice/view/4121240"  # 30 июля
+    # present_url = "https://present-dv.ru/present/notice/view/4121240"  # 30 июля
     # present_url = "https://present-dv.ru/present/notice/view/4165426"  # 9 августа
     # present_url = "https://present-dv.ru/present/notice/view/4035072"  # сегодня 16:00
     # present_url = "https://present-dv.ru/present/notice/view/4072129"  # 9 августа
+    present_url = "https://present-dv.ru/present/notice/view/4118928"
     main(present_url)

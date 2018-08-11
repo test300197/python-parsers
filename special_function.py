@@ -36,13 +36,51 @@ def get_CC(x):
     return categoryCode[x]
 
 
-def get_BC():
-    pass
+def get_BT(x):
+    buildingType = {
+
+    }
+
+    return buildingType[x]
 
 
-def get_BT():
-    pass
+def get_BC(x):
+    buildingClass = {
+        'элиткласс': 'elite',
+        'бизнескласс': 'business',
+        'экономкласс': 'econom',
+        'улучшенная': 'improved',
+        'новая': 'improved',
+        'брежневка': 'brezhnev',
+        'хрущевка': 'khrushchev',
+        'сталинка': 'stalin',
+        'старыйфонд': 'old_fund',
+        'малосемейка': 'small_apartm',
+        'общежитие': 'dormitory',
+        'гостинка': 'gostinka',
+        'индивидуальная': 'individual',
+        'дом': 'single_house',
+        'коттедж': 'cottage',
+        'дача': 'dacha',
+        'таунхаус': 'townhouse',
+        'дуплекс': 'duplex',
+        'A+': 'A+'
+    }
+
+    return buildingClass[x]
 
 
-def get_TC():
-    pass
+def get_TC(x):
+    typeCode = {
+        'доля': 'share',
+        'комната': 'room',
+        'квартира': 'apartment',
+        'дом': 'house',
+        'коттедж': 'cottage',
+        'дача': 'dacha',
+        'таунхаус': 'townhouse',
+        'дуплекс': 'duplex',
+        'дачныйземельныйучасток': 'dacha_land'
+    }
+
+    return typeCode[x]

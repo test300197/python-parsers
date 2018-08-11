@@ -7,7 +7,6 @@ from re import compile, findall
 from datetime import datetime
 
 
-
 def get_html(url):
     req = requests.get(url)
 
@@ -80,8 +79,8 @@ def get_date():
         'day': None,
         'month': None,
         'year': None,
-        'hour': None,
-        'minute': None,
+        'hour': '12',
+        'minute': '00',
         'second': '00'
     }
 
@@ -89,8 +88,6 @@ def get_date():
         date_time['day'] = datetime.now().day - 1
         date_time['month'] = datetime.now().month
         date_time['year'] = datetime.now().year
-        date_time['hour'] = '12'
-        date_time['minute'] = '00'
 
     elif dmy[0] == 'сегодня':
         date_time['day'] = datetime.now().day
@@ -103,8 +100,6 @@ def get_date():
         date_time['day'] = dmy[0]
         date_time['month'] = sf.get_month(dmy[1])
         date_time['year'] = dmy[2]
-        date_time['hour'] = '12'
-        date_time['minute'] = '00'
 
     date = "{day}-{month}-{year} {hour}:{minute}:{second}".format(**date_time)
 
@@ -112,14 +107,11 @@ def get_date():
 
 
 def get_address():
-    type_address = ''
     if 'улица/переулок' in info:
-        type_address = 'улица/переулок'
+        return info['улица/переулок']
 
     elif 'местоположение' in info:
-        type_address = 'местоположение'
-
-    return info[type_address]
+        return info['местоположение']
 
 
 def get_offer_type_code():

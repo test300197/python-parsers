@@ -1,6 +1,6 @@
 def get_month(x):
     month = {
-        'января' : 1,
+        'января': 1,
         'февраля': 2,
         'марта': 3,
         'апреля': 4,
@@ -15,6 +15,25 @@ def get_month(x):
     }
 
     return month[x]
+
+
+def get_OTC(x):
+    offerTypeCode = {
+        'продам': 'sale',
+        'сдам': 'rent'
+    }
+
+    return offerTypeCode[x]
+
+
+def get_CC(x):
+    categoryCode = {
+        'жилая': 'REZIDENTIAL',
+        'коммерческая': 'COMMERSIAL',
+        'участкиидачи': 'LAND'
+    }
+
+    return categoryCode[x]
 
 
 def get_BC():

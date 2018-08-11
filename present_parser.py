@@ -1,14 +1,19 @@
 import requests
 from bs4 import BeautifulSoup
 from pprint import pprint
-from re import compile
+from re import compile, findall
 from datetime import datetime
-from db import get_month, get_BC, get_BT, get_TC
+import special_function as sf
 
 
 def get_html(url):
     req = requests.get(url)
-    return req.text
+
+    if req.status_code != 200:  # Грамотно доделать
+        print("Error")
+        exit()
+    else:
+        return req.text
 
 
 def main(url):
@@ -43,9 +48,9 @@ def main(url):
     data['address'] = get_address()
     data['offerTypeCode'] = get_offer_type_code()
     data['categoryCode'] = get_category_code()
-    data['buildingType'] = get_building_type()
-    data['buildingClass'] = get_building_class(data['categoryCode'])
-    data['typeCode'] = get_type_code()
+    # data['buildingType'] = get_building_type()
+    # data['buildingClass'] = get_building_class(data['categoryCode'])
+    # data['typeCode'] = get_type_code()
     data['phones_import'] = get_phones()
     pprint(data)
 
@@ -67,41 +72,64 @@ def get_info():
 
 def get_date():
     tag_date = soup.find('div', class_='items-bar__group items-bar__group--double-indent')
-    info_date = tag_date.get_text().lower().replace('\n', '').replace('размещено:', '').replace(' ', '')
 
-    return info_date  # ДОДЕЛАТЬ !!!
+    info_date = tag_date.get_text().lower().replace('\n', '').replace('размещено:', '')
+    dmy = findall(r'\w+', info_date)
+
+    date_time = {
+        'day': None,
+        'month': None,
+        'year': None,
+        'hour': None,
+        'minute': None,
+        'second': None
+    }
+
+    if dmy[0] == 'вчера':
+        date_time['day'] = datetime.now().day - 1
+        date_time['month'] = datetime.now().month
+        date_time['year'] = datetime.now().year
+        date_time['hour'] = '12'
+        date_time['minute'] = '00'
+
+    elif dmy[0] == 'сегодня':
+        date_time['day'] = datetime.now().day
+        date_time['month'] = datetime.now().month
+        date_time['year'] = datetime.now().year
+        date_time['hour'] = dmy[2]
+        date_time['minute'] = dmy[3]
+
+    else:
+        date_time['day'] = dmy[0]
+        date_time['month'] = sf.get_month(dmy[1])
+        date_time['year'] = dmy[2]
+        date_time['hour'] = '12'
+        date_time['minute'] = '00'
+
+    date_time['second'] = '00'
+
+    date = "{day}-{month}-{year} {hour}:{minute}:{second}".format(**date_time)
+
+    return date
 
 
 def get_address():
     if 'улица/переулок' in info:
-        address = info['улица/переулок']
+        return info['улица/переулок']
     elif 'местоположение' in info:
-        address = info['местоположение']
-
-    return address
+        return info['местоположение']
 
 
 def get_offer_type_code():
-    type = breadcrumbs[2]
+    offer_type = breadcrumbs[2]
 
-    offerTypeCode = {
-        'продам': 'sale',
-        'сдам': 'rent'
-    }
-
-    return offerTypeCode[type]
+    return sf.get_OTC(offer_type)
 
 
 def get_category_code():
     category = breadcrumbs[3]
 
-    categoryCode = {
-        'жилая': 'REZIDENTIAL',
-        'коммерческая': 'COMMERSIAL',
-        'участкиидачи': 'LAND'
-    }
-
-    return categoryCode[category]
+    return sf.get_CC(category)
 
 
 def get_building_type():
@@ -133,9 +161,9 @@ def get_phones():
 
 
 if __name__ == '__main__':
-    # present_url = "https://present-dv.ru/present/notice/view/4119440"
-    # present_url = "https://present-dv.ru/present/notice/view/4121240"
-    # present_url = "https://present-dv.ru/present/notice/view/4165426"
-    # present_url = "https://present-dv.ru/present/notice/view/4035072"
-    present_url = "https://present-dv.ru/present/notice/view/4072129"
+    # present_url = "https://present-dv.ru/present/notice/view/4119440"  # вчера
+    present_url = "https://present-dv.ru/present/notice/view/4121240"  # 30 июля
+    # present_url = "https://present-dv.ru/present/notice/view/4165426"  # 9 августа
+    # present_url = "https://present-dv.ru/present/notice/view/4035072"  # сегодня 16:00
+    # present_url = "https://present-dv.ru/present/notice/view/4072129"  # 9 августа
     main(present_url)

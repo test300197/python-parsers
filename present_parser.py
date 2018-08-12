@@ -10,7 +10,7 @@ from datetime import datetime
 def get_html(url):
     req = requests.get(url)
 
-    if req.status_code != 200:
+    if req.status_code != requests.codes.ok:
         print("Error")
         exit()
     else:

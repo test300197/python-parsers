@@ -20,7 +20,8 @@ def get_month(x):
 def get_OTC(x):
     offerTypeCode = {
         'продам': 'sale',
-        'сдам': 'rent'
+        'сдам': 'rent',
+        'посуточно': 'short'
     }
 
     return offerTypeCode[x]
@@ -30,7 +31,17 @@ def get_CC(x):
     categoryCode = {
         'жилая': 'REZIDENTIAL',
         'коммерческая': 'COMMERSIAL',
-        'участкиидачи': 'LAND'
+        'участкиидачи': 'LAND',
+
+        'квартиры': 'REZIDENTIAL',
+        'посуточная аренда квартир': 'REZIDENTIAL',
+        'комнаты': 'REZIDENTIAL',
+        'коммерческая недвижимость': 'COMMERSIAL',
+        'дома': 'REZIDENTIAL',
+        'дачи': 'LAND',
+        'коттеджи': 'LAND',
+        'посуточная аренда домов': 'REZIDENTIAL',
+        'земельные участки': 'LAND',
     }
 
     return categoryCode[x]

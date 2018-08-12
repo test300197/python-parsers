@@ -21,7 +21,10 @@ def get_OTC(x):
     offerTypeCode = {
         'продам': 'sale',
         'сдам': 'rent',
-        'посуточно': 'short'
+        'посуточно': 'short',
+        'продажа': 'sale',
+        'аренда': 'rent',
+        'квартиры': 'short'
     }
 
     return offerTypeCode[x]
@@ -42,6 +45,14 @@ def get_CC(x):
         'коттеджи': 'LAND',
         'посуточная аренда домов': 'REZIDENTIAL',
         'земельные участки': 'LAND',
+
+        'квартир': 'REZIDENTIAL',
+        'дом': 'REZIDENTIAL',
+        'коттедж': 'LAND',
+        'посуточно': 'REZIDENTIAL',
+        'помещений': 'COMMERSIAL',
+        'земельных': 'LAND',
+        'дач': 'LAND'
     }
 
     return categoryCode[x]

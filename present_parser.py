@@ -3,7 +3,7 @@ import special_function as sf
 
 from bs4 import BeautifulSoup
 from pprint import pprint
-from re import compile, findall
+from re import findall
 from datetime import datetime
 
 

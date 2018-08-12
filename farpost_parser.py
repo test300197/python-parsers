@@ -4,7 +4,7 @@ import top_secret as ts
 
 from bs4 import BeautifulSoup
 from pprint import pprint
-from re import compile, findall
+from re import findall
 from datetime import datetime
 
 

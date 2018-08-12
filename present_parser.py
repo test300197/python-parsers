@@ -18,6 +18,8 @@ def get_html(url):
 
 
 def main(url):
+    start = datetime.now()
+    print('Start: ', start)
     html_code = get_html(url)
 
     data = {
@@ -55,6 +57,10 @@ def main(url):
     data['phones_import'] = get_phones()
     pprint(data)
 
+    end = datetime.now()
+    print('End: ', end)
+
+    print('Затрачено:', end - start)
     # return data
 
 
@@ -149,10 +155,5 @@ def get_phones():
 
 
 if __name__ == '__main__':
-    # present_url = "https://present-dv.ru/present/notice/view/4119440"  # вчера
-    # present_url = "https://present-dv.ru/present/notice/view/4121240"  # 30 июля
-    # present_url = "https://present-dv.ru/present/notice/view/4165426"  # 9 августа
-    # present_url = "https://present-dv.ru/present/notice/view/4035072"  # сегодня 16:00
-    # present_url = "https://present-dv.ru/present/notice/view/4072129"  # 9 августа
-    present_url = "https://present-dv.ru/present/notice/view/4118928"
+    present_url = "https://present-dv.ru/present/notice/view/4167146"
     main(present_url)

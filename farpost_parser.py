@@ -19,6 +19,8 @@ def get_html(url):
 
 
 def main(url):
+    start = datetime.now()
+    print('Start: ', start)
     html_code = get_html(url)
 
     data = {
@@ -37,7 +39,7 @@ def main(url):
 
     global soup
     global breadcrumbs
-    soup = BeautifulSoup(html_code, 'lxml')
+    soup = BeautifulSoup(html_code, 'lxml').find('body')
 
     breadcrumbs = []
     tag_breadcrumbs = soup.find_all('span', itemprop='name')
@@ -60,6 +62,10 @@ def main(url):
     data['phones_import'] = get_phones()
     pprint(data)
 
+    end = datetime.now()
+    print('End: ', end)
+
+    print('Затрачено:', end - start)
     # return data
 
 
@@ -182,5 +188,5 @@ def get_phones():
 
 
 if __name__ == '__main__':
-    farpost_url = "https://www.farpost.ru/khabarovsk/realty/sell_flats/prodam-komnatu-v-rajone-ost-bolshaja-52659524.html"
+    farpost_url = "https://www.farpost.ru/khabarovsk/realty/sell_flats/prodam-dve-komnaty-v-kommunalnoj-kvartire-r-n-dvgups-58927063.html"
     main(farpost_url)

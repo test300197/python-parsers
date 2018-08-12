@@ -18,6 +18,8 @@ def get_html(url):
 
 
 def main(url):
+    start = datetime.now()
+    print('Start: ', start)
     html_code = get_html(url)
 
     data = {
@@ -36,8 +38,7 @@ def main(url):
 
     global soup
     global breadcrumbs
-    soup = BeautifulSoup(html_code, 'lxml')
-
+    soup = BeautifulSoup(html_code, 'lxml').find('body')
     breadcrumbs = []
     tag_breadcrumbs = soup.find_all('a', class_='js-breadcrumbs-link js-breadcrumbs-link-interaction')
     for i in tag_breadcrumbs:
@@ -54,9 +55,13 @@ def main(url):
     # data['buildingClass'] = get_building_class()
     # data['buildingType'] = get_building_type()
     # data['typeCode'] = get_type_code()
-    # data['phones_import'] = get_phones()
+    data['phones_import'] = get_phones()
     pprint(data)
 
+    end = datetime.now()
+    print('End: ', end)
+
+    print('Затрачено:', end - start)
     # return data
 
 
@@ -153,9 +158,10 @@ def get_type_code():
 
 def get_phones():
     avito_mobile = avito_url.replace('www', 'm')
-    tag_numbers = None
 
+    tag_numbers = None
     while tag_numbers is None:
+        print('!')
         mobile_html_code = get_html(avito_mobile)
         mobile_soup = BeautifulSoup(mobile_html_code, 'lxml')
         tag_numbers = mobile_soup.find(attrs={'data-marker': 'item-contact-bar/call'})
@@ -169,5 +175,5 @@ def get_phones():
 
 if __name__ == '__main__':
     global avito_url
-    avito_url = "https://www.avito.ru/habarovsk/kvartiry/4-k_kvartira_75.6_m_69_et._1402464163"
+    avito_url = "https://www.avito.ru/habarovsk/kvartiry/7-k_kvartira_250_m_55_et._1043387500"
     main(avito_url)
